@@ -1,19 +1,25 @@
-This is a big-number library for Lua. It is based on the arbitrary precision
-library number.c written by Phil Nelson for GNU bc-1.06.
+This is a big-number library for Lua 5.0. It is based on the arbitrary
+precision library number.c written by Philip A. Nelson for GNU bc-1.06.
 
-To install, edit Makefile to reflect your installation of Lua.
-Then run "make test".
+To try this Lua library, edit Makefile to reflect your installation of Lua.
+Then run make. This will build lbc.so and run a simple test. If everything
+is ok, install lbc.so and bc.lua in some official place. You may want to
+edit bc.lua to change the default value of SOPATH (you can also set the
+environment variable LUA_SOPATH at run time).
 
 Here is a brief explanation of the files in this package:
-  config.h        avoid external names without the bc_ prefix
-  number.c        arbitrary precision library
-  number.h        header for number.c
-  bclib.c         Lua binding for number.c
-  main.c          Lua interpreter that loads bc binding (copied from Lua 4.0)
+  lbc.c           bc library based on number.c
+  bc.lua          support code
   test.lua        test code
-  tm.lua          tag method interface for bc binding
+  number.c        arbitrary precision library (untouched from GNU bc-1.06)
+  number.h        header for number.c (untouched from GNU bc-1.06)
+  config.h        avoid external names without the bc_ prefix in number.c
 
-This code is hereby placed in the public domain, except for number.c,
-which is subject to GPL.
+There is no manual but the library is simple and intuitive, specially given
+the metamethods set in bc.lua. To see a summary of what is exported to Lua,
+do "make xx". The examples in test.lua show the library in action.
+
+This code is hereby placed in the public domain, except number.c and number.h,
+which are subject to GPL.
 
 Please send comments, suggestions, and bug reports to lhf@tecgraf.puc-rio.br .

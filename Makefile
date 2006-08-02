@@ -1,44 +1,57 @@
-# makefile for big numbers in Lua
+# makefile for bc library for Lua
 
-# change this to reflect your installation
-LUA=/tmp/lua-4.0
-LUALIB= $(LUA)/lib
+# change these to reflect your Lua installation
+LUA= /tmp/lhf/lua-5.0
 LUAINC= $(LUA)/include
+LUALIB= $(LUA)/lib
+LUABIN= $(LUA)/bin
 
-CC= gcc
-CFLAGS= $(INCS) $(DEFS) $(WARN) -O2 -g
-WARN= -ansi -pedantic -Wall #-Wmissing-prototypes
-
+# no need to change anything below here
+CFLAGS= $(INCS) $(WARN) -O2 $G
+WARN= -ansi -pedantic -Wall
 INCS= -I$(LUAINC) -I.
-LIBS= -L$(LUALIB) -llua -llualib -lm
 
-OBJS= number.o bclib.o main.o
+MYNAME= bc
+MYLIB= l$(MYNAME)
+T= $(MYLIB).so
+OBJS= $(MYLIB).o number.o
+TEST= test.lua
 
-T=a.out
-
-all:	$T
-
-$T:	$(OBJS)
-	$(CC) -o $@ $(OBJS) $(LIBS)
-
-clean:
-	rm -f $T $(OBJS) core
+all:	test
 
 test:	$T
-	$T test.lua
+	$(LUABIN)/lua -l$(MYNAME) $(TEST)
+
+o:	$(MYLIB).o
+
+so:	$T
+
+$T:	$(OBJS)
+	$(CC) -o $@ -shared $(OBJS)
+
+clean:
+	rm -f $(OBJS) $T core core.* a.out
+
+doc:
+	@echo "$(MYNAME) library:"
+	@fgrep '/**' $(MYLIB).c | cut -f2 -d/ | tr -d '*' | sort | column
 
 # distribution
 
-D=bc
-A=$D.tar.gz
-TOTAR=Makefile,README,bclib.c,config.h,main.c,number.c,number.h,test.lua,tm.lua
+FTP= $(HOME)/public/ftp/lua/5.0
+D= $(MYNAME)
+A= $(MYLIB).tar.gz
+TOTAR= Makefile,README,$(MYLIB).c,$(MYNAME).lua,test.lua,config.h,number.c,number.h
 
 tar:	clean
 	tar zcvf $A -C .. $D/{$(TOTAR)}
 
 distr:	tar
-	mv $A ftp
+	touch -r $A .stamp
+	mv $A $(FTP)
 
-diff:
-	tar zxf ftp/$A
-	diff . $D
+diff:	clean
+	tar zxf $(FTP)/$A
+	diff $D .
+
+# eof

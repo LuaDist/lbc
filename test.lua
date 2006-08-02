@@ -1,66 +1,110 @@
-dofile"tm.lua"
+-- test bc library
+
+------------------------------------------------------------------------------
+print(bc.version)
+
+------------------------------------------------------------------------------
+print""
+print"Pi algorithm of order 4"
+
+bc.digits(65)
+PI=bc.number"3.1415926535897932384626433832795028841971693993751058209749445923078164062862090"
+
+-- http://pauillac.inria.fr/algo/bsolve/constant/pi/pi.html
+function A2()
+ local x=bc.sqrt(2)
+ local p=2+x
+ local y=bc.sqrt(x)
+ print(-1,p)
+ x=(y+1/y)/2
+ p=p*(x+1)/(y+1)
+ print(0,p)
+ for i=1,20 do
+  local P=p
+  local t=bc.sqrt(x)
+  y=(y*t+1/t)/(y+1)
+  x=(t+1/t)/2
+  p=p*(x+1)/(y+1)
+  print(i,p)
+  if p==P then break end
+ end
+ return p
+end
+
+function bc.abs(x) if bc.isneg(x) then return -x else return x end end
+
+p=A2()
+print("exact",PI)
+print("-",bc.abs(PI-p))
+
+------------------------------------------------------------------------------
+print""
+print"Square root of 2"
 
 function mysqrt(x)
- local n=ceil(log(Bdigits())/log(2))+1
- local y=x
- for i=1,n do y=(y+x/y)/2 end
+ local y,z=x,x
+ repeat z,y=y,(y+x/y)/2 until z==y
  return y
 end
 
-Bdigits(50) a=Bsqrt(2) print(a)
-Bdigits(50) c=mysqrt(Bnumber(2)) print(c)
-Bdigits(20) b=Bnumber(tostring(a)) print(b)
+print("f math",math.sqrt(2))
+print("f mine",mysqrt(2))
+a=bc.sqrt(2) print("B sqrt",a)
+b=mysqrt(bc.number(2)) print("B mine",b)
+R=bc.number"1.414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327641573"
+print("exact",R)
+print(a==b,a<b,a>b,bc.compare(a,b))
 
-Bdigits(53) print(Bdiv(1,998999))
+------------------------------------------------------------------------------
+print""
+print"Fibonacci numbers as digits in fraction"
 
-exit()
+x=99989999
+bc.digits(68)
+a=bc.div(1,x)
+s=bc.tostring(a)
+print("1/"..x.." =")
+print("",s)
+s=string.gsub(s,"0(%d%d%d)"," %1")
+print("",s)
 
-print(Bsqrt(2))
-c=Bdiv(1,23)
-print(c)
-print(Bstring(c))
+------------------------------------------------------------------------------
+print""
+print"Factorials"
 
-print(Bdiv(143,7))
-print(Bmod(143,7))
-
-exit()
-
-a=Bnumber(rad(180))
-print(Bstring(a))
-c=Bdiv(1,23)
-print(c)
-print(Bstring(c))
-
-c=Bpow(2,123)
-print(Bstring(c))
-
-exit()
-
--- Arctan: Using the formula:
---     atan(x) = atan(c) + atan((x-c)/(1+xc)) for a small c (.2 here)
---  For under .2, use the series:
---	     atan(x) = x - x^3/3 + x^5/5 - x^7/7 + ... 
-
-function Batan(x,n)
- local four=Bnumber(4)
- local y=Bmul(x,x)
- local z=x
- local t=x
- local a=t
- local j=1
- local A=a
- local b
- for i=2,n do
-  j=j+2
-  z=Bmul(z,y)
-  t=Bdiv(z,Bnumber(j))
-  if mod(i,2)==0 then a=Bsub(a,t) else a=Badd(a,t) end
-b=Badd(a,A) b=Bmul(b,Bnumber(2))
-  A=a
- end
-print(Bstring(b))
+function factorial(n,f)
+ for i=2,n do f=f*i end
+ return f
 end
 
-Bdigits(70)
-Batan(Bnumber(1),100)
-print(4*rad(atan(1)))
+one=bc.number(1)
+for i=1,30 do
+ print(i,factorial(i,1),factorial(i,one))
+end
+
+------------------------------------------------------------------------------
+print""
+print"Comparisons"
+
+bc.digits(4)
+a=bc.div(4,2)
+b=bc.number(1)
+print("a","b","a==b","a<b","a>b","bc.compare(a,b)")
+print(a,b,a==b,a<b,a>b,bc.compare(a,b))
+b=b+1
+print(a,b,a==b,a<b,a>b,bc.compare(a,b))
+b=b+1
+print(a,b,a==b,a<b,a>b,bc.compare(a,b))
+
+------------------------------------------------------------------------------
+print""
+print(bc.version)
+
+do return end	-------------------------------------------------------------
+
+bc.digits(60)
+print(bc.div(143,7))
+print(bc.mod(143.2,7))
+print(bc.mod(143,7))
+print(bc.mod(143,7.5))
+
