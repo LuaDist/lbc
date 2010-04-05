@@ -1,25 +1,28 @@
-This is a big-number library for Lua 5.0. It is based on the arbitrary
-precision library number.c written by Philip A. Nelson for GNU bc-1.06.
+This is a big-number library for Lua 5.1. It is based on the arbitrary
+precision library number.c written by Philip A. Nelson for GNU bc-1.06:
+	http://www.gnu.org/software/bc/
 
-To try this Lua library, edit Makefile to reflect your installation of Lua.
-Then run make. This will build lbc.so and run a simple test. If everything
-is ok, install lbc.so and bc.lua in some official place. You may want to
-edit bc.lua to change the default value of SOPATH (you can also set the
-environment variable LUA_SOPATH at run time).
+To try the library, just edit Makefile to reflect your installation of Lua and
+then run make. This will build the library and run a simple test. For detailed
+installation instructions, see
+	http://www.tecgraf.puc-rio.br/~lhf/ftp/lua/install.html
 
-Here is a brief explanation of the files in this package:
-  lbc.c           bc library based on number.c
-  bc.lua          support code
-  test.lua        test code
-  number.c        arbitrary precision library (untouched from GNU bc-1.06)
-  number.h        header for number.c (untouched from GNU bc-1.06)
-  config.h        avoid external names without the bc_ prefix in number.c
-
-There is no manual but the library is simple and intuitive, specially given
-the metamethods set in bc.lua. To see a summary of what is exported to Lua,
-do "make xx". The examples in test.lua show the library in action.
+There is no manual but the library is simple and intuitive; see the summary
+below. Read also test.lua, which shows the library in action.
 
 This code is hereby placed in the public domain, except number.c and number.h,
 which are subject to GPL.
 
 Please send comments, suggestions, and bug reports to lhf@tecgraf.puc-rio.br .
+
+-------------------------------------------------------------------------------
+
+bc library:
+ __add(x,y) 	 __pow(x,y) 	 digits([n]) 	 mul(x,y) 	 sub(x,y) 
+ __div(x,y) 	 __sub(x,y) 	 div(x,y) 	 neg(x) 	 tonumber(x) 
+ __eq(x,y) 	 __tostring(x) 	 divmod(x,y) 	 number(x) 	 tostring(x) 
+ __lt(x,y) 	 __unm(x) 	 isneg(x) 	 pow(x,y) 	 trunc(x,[n]) 
+ __mod(x,y) 	 add(x,y) 	 iszero(x) 	 powmod(x,y,m) 	 version 
+ __mul(x,y) 	 compare(x,y) 	 mod(x,y) 	 sqrt(x) 
+
+-------------------------------------------------------------------------------
