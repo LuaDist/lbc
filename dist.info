@@ -1,0 +1,14 @@
+--- This file is part of LuaDist project
+
+name = "lbc"
+version = "5.1"
+
+desc = "A simple arbitrary precision library for Lua, based on code from GNU bc."
+author = "Luiz Henrique de Figueiredo"
+license = "Public domain"
+url = "http://www.tecgraf.puc-rio.br/~lhf/ftp/lua/#lbc"
+maintainer = "Peter Drahoš"
+
+depends = {
+	"lua ~> 5.1"
+}
