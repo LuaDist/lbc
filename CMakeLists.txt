@@ -1,18 +1,19 @@
-# Copyright (C) 2007-2009 LuaDist.
+# Copyright (C) 2007-2011 LuaDist.
 # Created by Peter Drahoš
 # Redistribution and use of this file is allowed according to the terms of the MIT license.
 # For details see the COPYRIGHT file distributed with LuaDist.
 # Please note that the package source code is licensed under its own license.
 
-PROJECT(lbc C)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-INCLUDE(dist.cmake)
+project ( lbc C )
+cmake_minimum_required ( VERSION 2.6 )
+include ( dist.cmake )
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories ( ${CMAKE_CURRENT_SOURCE_DIR} )
 
-ADD_LUA_MODULE(bc number.c lbc.c bc.def)
-ADD_LUA_TEST(test.lua)
+install_lua_module ( bc number.c lbc.c bc.def )
+install_data ( README )
+install_test ( test.lua )
 
-INSTALL (TARGETS bc DESTINATION ${INSTALL_CMOD})
-INSTALL (FILES README DESTINATION ${INSTALL_DATA})
-INSTALL (FILES test.lua DESTINATION ${INSTALL_TEST})
+add_lua_test ( test.lua )
+
+
