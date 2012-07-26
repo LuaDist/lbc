@@ -6,7 +6,8 @@
 
 project ( lbc C )
 cmake_minimum_required ( VERSION 2.6 )
-include ( dist.cmake )
+include ( cmake/dist.cmake )
+include ( lua )
 
 include_directories ( ${CMAKE_CURRENT_SOURCE_DIR} )
 
@@ -15,5 +16,4 @@ install_data ( README )
 install_test ( test.lua )
 
 add_lua_test ( test.lua )
-
 
