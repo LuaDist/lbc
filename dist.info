@@ -1,0 +1,28 @@
+type = "x86"
+arch = "Windows"
+author = "Luiz Henrique de Figueiredo"
+depends = {
+[[lua ~> 5.1]],
+}
+
+desc = "A simple arbitrary precision library for Lua, based on code from GNU bc."
+version = "5.1"
+maintainer = "Peter Drahoš"
+files = {
+Runtime = {
+[[lib\lua\bc.dll]],
+}
+,
+Data = {
+[[share\lbc\README]],
+}
+,
+Test = {
+[[share\lbc\test\test.lua]],
+}
+,
+}
+
+license = "Public domain"
+name = "lbc"
+url = "http://www.tecgraf.puc-rio.br/~lhf/ftp/lua/#lbc"
